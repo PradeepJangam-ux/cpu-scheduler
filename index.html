@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>CPU Scheduler - Animated & Themed</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-theme="dark">
+
+  <header>
+    <div>
+      <h1>CPU Scheduler Simulator</h1>
+      <span style="color:var(--text-muted); font-size:0.9rem;">FCFS, SJF, Round Robin, Priority</span>
+    </div>
+    <button id="themeToggle" class="theme-toggle">
+      <span id="themeIcon">☀️</span> Toggle Theme
+    </button>
+  </header>
+
+  <main class="container">
+    
+    <section class="top-section">
+      <div class="card">
+        <h2>1. Add Process</h2>
+        <form id="processForm">
+          <div class="form-grid">
+            <div>
+              <label>Arrival Time</label>
+              <input type="number" id="arrival" min="0" value="0" required>
+            </div>
+            <div>
+              <label>Burst Time</label>
+              <input type="number" id="burst" min="1" value="1" required>
+            </div>
+            <div>
+              <label>Priority</label>
+              <input type="number" id="priority" min="0" value="0" placeholder="Lower=High">
+            </div>
+            <button type="submit" class="btn-primary" style="height:42px">Add +</button>
+          </div>
+        </form>
+        
+        <div id="processList" class="process-list">
+          <div style="padding:15px; text-align:center; color:var(--text-muted)">No processes added yet.</div>
+        </div>
+        
+        <div class="btn-group">
+          <button id="demoBtn" class="btn-secondary">Load Demo Data</button>
+          <button id="clearBtn" class="btn-danger">Clear All</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>2. Configuration & Controls</h2>
+        <label>Algorithm</label>
+        <select id="algoSelect">
+          <option value="FCFS">First Come First Serve (FCFS)</option>
+          <option value="SJF">Shortest Job First (Non-Preemptive)</option>
+          <option value="RR">Round Robin</option>
+          <option value="PRIO">Priority (Non-Preemptive)</option>
+        </select>
+        
+        <div id="rrQuantumBox" style="margin-top:10px; display:none;">
+          <label>Time Quantum</label>
+          <input type="number" id="quantum" value="2" min="1">
+        </div>
+
+        <div style="margin-top:20px; border-top:1px solid var(--border); padding-top:15px;">
+          <label>Animation Speed: <span id="speedVal">1x</span></label>
+          <input type="range" id="speedRange" min="10" max="300" value="100" style="width:100%">
+        </div>
+
+        <div class="btn-group" style="margin-top:20px;">
+          <button id="runBtn" class="btn-primary" style="flex:1;">Run Simulation</button>
+          <button id="stopBtn" class="btn-secondary" disabled>Stop</button>
+          <button id="exportBtn" class="btn-secondary">Export CSV</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="card gantt-wrapper">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <h2>Visual Timeline (Gantt Chart)</h2>
+        <span id="timerDisplay" style="color:var(--text-muted); font-family:monospace;">T=0</span>
+      </div>
+      <div id="ganttContainer" class="gantt-chart">
+        <div style="width:100%; display:flex; align-items:center; justify-content:center; color:var(--text-muted);">
+          Run simulation to view chart
+        </div>
+      </div>
+    </section>
+
+    <section class="bottom-section">
+      <div class="card">
+        <h2>Process Details</h2>
+        <table id="resultTable">
+          <thead>
+            <tr>
+              <th>PID</th>
+              <th>Arrival</th>
+              <th>Burst</th>
+              <th>Priority</th>
+              <th>Start</th>
+              <th>Finish</th>
+              <th>Wait</th>
+              <th>Turnaround</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td colspan="8" style="text-align:center; color:var(--text-muted);">No results yet</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card metrics-box">
+        <h2>Metrics</h2>
+        <div class="metric">
+          <h3>Avg Waiting Time</h3>
+          <span id="avgWait">-</span>
+        </div>
+        <div class="metric">
+          <h3>Avg Turnaround</h3>
+          <span id="avgTurn">-</span>
+        </div>
+        <div class="metric">
+          <h3>CPU Utilization</h3>
+          <span id="cpuUtil">-</span>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
